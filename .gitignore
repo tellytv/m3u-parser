@@ -1,0 +1,10 @@
+*.m3u
+build/*
+telly
+telly-m3u-parser
+.DS_Store
+/.GOPATH
+/bin
+bin
+pkg
+src
