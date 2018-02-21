@@ -43,6 +43,15 @@ func Parse(fileName string) (playlist Playlist, err error) {
 
 		if strings.HasPrefix(line, "#EXTINF") {
 			line := strings.Replace(line, "#EXTINF:", "", -1)
+			// At this point the line will be something like "1 xxxxxxx"
+			// We need "1, xxxxxx"
+			temporaryInfo := strings.Split(line, " ")
+			tempLength := temporaryInfo[0] // This is "1"
+			if !strings.HasSuffix(tempLength, ",") {
+				// We don't have a comma so we need to add it
+				line = line[len(tempLength):]
+				line = tempLength + ", " + line
+			}
 			trackInfo := strings.Split(line, ",")
 			if len(trackInfo) < 2 {
 				err = errors.New("Invalid m3u file format. Expected EXTINF metadata to contain track length and name data")
@@ -50,7 +59,7 @@ func Parse(fileName string) (playlist Playlist, err error) {
 			}
 			length, parseErr := strconv.Atoi(trackInfo[0])
 			if parseErr != nil {
-				err = errors.New("Unable to parse length")
+				err = errors.New("Unable to parse length. Line: " + line)
 				return
 			}
 			track := &Track{trackInfo[1], length, ""}
