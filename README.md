@@ -1,3 +1,9 @@
+# NO LONGER USED
+## this was implemented into telly
+# NO LONGER USED
+
+
+
 # telly-m3u-parser
 A Go m3u parser especially modified for [telly](https://github.com/tombowditch/telly).
 
